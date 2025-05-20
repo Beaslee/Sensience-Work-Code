@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Viewer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    tab {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 4px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #f8f8f8;
+  transition: background 0.2s ease;
+}
+
+.tab:hover {
+  background: #05e2ff;
+}
+
+.tab.active {
+  background: #ddd;
+  font-weight: bold;
+
+
+    }
+
+    .tab.active {
+      background: #eee;
+      font-weight: bold;
+    }
+
+    .chart-section {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .chart-section.active {
+      display: block;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      text-align: left;
+    }
+
+    .toggle-button {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+  <h1>Product Information</h1>
+  <img src="images/Sensience Logo.png" alt="Company Logo" style="height: 50px;" />
+</div>
+
+ 
+
+  <!-- Filters -->
+  <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+  <div>
+    <label for="typeFilter">Filter by Product Type:</label><br />
+    <input type="text" id="typeFilter" placeholder="e.g., Bimetallic, TCO" />
+  </div>
+  <div>
+    <label for="complianceFilter">Filter by Compliance:</label><br />
+    <input type="text" id="complianceFilter" placeholder="e.g., UL, ISO" />
+  </div>
+</div>
+<br />
+
+  <!-- Product Selector -->
+  <label for="productSelect">Select or Search Products:</label><br />
+  <select id="productSelect" multiple></select>
+
+  <!-- Product Details -->
+  <div id="productDetails" style="display: none; margin-top: 20px;">
+    <h2>Product Details</h2>
+    <p><strong>Name:</strong> <span id="prodName"></span></p>
+    <p><strong>Type:</strong> <span id="prodType"></span></p>
+    <p><strong>Voltage:</strong> <span id="prodVoltage"></span></p>
+    <p><strong>Temperature:</strong> <span id="prodTemperature"></span></p>
+    <p><strong>Load:</strong> <span id="prodLoad"></span></p>
+    <p><strong>Compliance:</strong> <span id="prodCompliance"></span></p>
+    <p><strong>File Number:</strong> <span id="prodFile"></span></p>
+  </div>
+
+  <!-- Comparison Table -->
+  <div id="productTable" style="margin-top: 20px;">
+    <button id="downloadTableBtn">Download Table as CSV</button>
+    <!-- Table will be injected here -->
+  </div>
+
+  <!-- Tabs -->
+  <div style="margin-top: 40px;">
+    <div class="tab active" data-tab="tco">TCO Chart</div>
+    <div class="tab" data-tab="bimetallic">Bimetallic Chart</div>
+    <div class="tab" data-tab="tempsensors">Temp sensor Chart</div>
+  </div>
+
+  <!-- TCO Chart Section -->
+  <div id="tco" class="chart-section active">
+    <button class="toggle-button" onclick="toggleSection('tco')">Collapse</button>
+    <button onclick="downloadChart('tcoScatterChart', 'tco_chart.png')">Download TCO Chart</button>
+    <h2>TCO Scatter Plot</h2>
+    <canvas id="tcoScatterChart" width="600" height="300"></canvas>
+  </div>
+
+  <!-- Bimetallic Chart Section -->
+  <div id="bimetallic" class="chart-section">
+    <button class="toggle-button" onclick="toggleSection('bimetallic')">Collapse</button>
+    <button onclick="downloadChart('bimetallicScatterChart', 'bimetallic_chart.png')">Download Bimetallic Chart</button>
+    <h2>Bimetallic Scatter Plot</h2>
+    <label for="bimetallicAxisSelect">Select axes:</label>
+    <select id="bimetallicAxisSelect">
+      <option value="voltage-temperature">Voltage vs Temperature</option>
+      <option value="voltage-load">Voltage vs Load</option>
+      <option value="load-temperature">Load vs Temperature</option>
+      <option value="index-temperature">Temperature Only</option>
+    </select>
+    <canvas id="bimetallicScatterChart" width="600" height="300"></canvas>
+  </div>
+
+   <!-- Tempsensor Chart Section -->
+  <div id="tempsensors" class="chart-section">
+  <button class="toggle-button" onclick="toggleSection('temp sensors')">Collapse</button>
+  <button onclick="downloadChart('tempSensorChart', 'temperature_sensors_chart.png')">Download Temp Sensor Chart</button>
+  <h2>Temperature Sensor Max Temp</h2>
+  <canvas id="tempSensorChart" width="600" height="300"></canvas>
+</div>
+
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

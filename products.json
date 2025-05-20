@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Thermostat A1",
+    "type": "Bimetallic",
+    "function": "Temperature Regulation",
+    "voltage": "120V",
+    "application": "HVAC Systems",
+    "compliance": "UL, CE",
+    "temperature": "85°C"
+  },
+  {
+    "name": "Sensor B2",
+    "type": "NTC Thermistor",
+    "function": "Temperature Sensing",
+    "voltage": "5V",
+    "application": "Automotive",
+    "compliance": "ISO 26262",
+    "temperature": "125°C"
+  },
+  {
+    "name": "Switch C3",
+    "type": "Snap Action",
+    "function": "Control Circuit",
+    "voltage": "240V",
+    "application": "Industrial Equipment",
+    "compliance": "IEC 60947",
+    "temperature": "100°C"
+  }
+]
